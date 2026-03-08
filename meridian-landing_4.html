@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meridian — Customer Experience Consultancy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #f9f7f4;
+      --warm-white: #ffffff;
+      --ink: #1a1814;
+      --ink-light: #6b6660;
+      --ink-faint: #b5b0aa;
+      --accent: #c17f4a;
+      --accent-light: #e8d5c0;
+      --accent-faint: #f5ede4;
+      --border: #e8e4df;
+      --font-display: 'Cormorant Garamond', serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-weight: 300;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 4rem;
+      background: rgba(249, 247, 244, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
+    }
+
+    nav.scrolled { border-color: var(--border); }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--ink); }
+
+    .nav-cta {
+      font-size: 0.8rem !important;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent) !important;
+      border: 1px solid var(--accent);
+      padding: 0.5rem 1.25rem;
+      border-radius: 2px;
+      transition: background 0.2s, color 0.2s !important;
+    }
+
+    .nav-cta:hover {
+      background: var(--accent) !important;
+      color: white !important;
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 4rem 6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: 'M';
+      position: absolute;
+      right: -2rem;
+      top: 50%;
+      transform: translateY(-55%);
+      font-family: var(--font-display);
+      font-size: clamp(20rem, 35vw, 42rem);
+      font-weight: 300;
+      color: var(--accent-faint);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+      opacity: 0.6;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.2s;
+    }
+
+    .hero-headline {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 6.5vw, 6.5rem);
+      font-weight: 300;
+      line-height: 1.08;
+      letter-spacing: -0.01em;
+      max-width: 820px;
+      opacity: 0;
+      animation: fadeUp 0.9s ease forwards 0.4s;
+    }
+
+    .hero-headline em { font-style: italic; color: var(--accent); }
+
+    .hero-divider {
+      width: 3rem;
+      height: 1px;
+      background: var(--accent);
+      margin: 2.5rem 0;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.6s;
+    }
+
+    .hero-body {
+      max-width: 520px;
+      font-size: 1.05rem;
+      color: var(--ink-light);
+      line-height: 1.75;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.75s;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      margin-top: 3rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.9s;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--ink);
+      color: white;
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 1rem 2.25rem;
+      border-radius: 2px;
+      transition: background 0.25s, transform 0.2s;
+    }
+
+    .btn-primary:hover { background: var(--accent); transform: translateY(-1px); }
+
+    .btn-secondary {
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.2s, gap 0.2s;
+    }
+
+    .btn-secondary:hover { color: var(--ink); gap: 0.75rem; }
+    .btn-secondary::after { content: '\2192'; }
+
+    /* SECTION SHARED */
+    section { padding: 7rem 4rem; }
+
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4vw, 3.8rem);
+      font-weight: 300;
+      line-height: 1.15;
+      max-width: 640px;
+    }
+
+    .section-title em { font-style: italic; color: var(--accent); }
+
+    /* INTRO STRIP */
+    .intro-strip {
+      background: var(--ink);
+      color: white;
+      padding: 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .intro-strip-quote {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+      font-weight: 300;
+      line-height: 1.4;
+      font-style: italic;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .intro-strip-body {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.8;
+    }
+
+    /* SERVICES */
+    .services { background: var(--warm-white); }
+
+    .services-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 4rem;
+      gap: 2rem;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border: 1px solid var(--border);
+    }
+
+    .service-card {
+      padding: 3rem 2.5rem;
+      border-right: 1px solid var(--border);
+      transition: background 0.3s;
+    }
+
+    .service-card:last-child { border-right: none; }
+    .service-card:hover { background: var(--accent-faint); }
+
+    .service-number {
+      font-family: var(--font-display);
+      font-size: 3.5rem;
+      font-weight: 300;
+      color: var(--accent-light);
+      line-height: 1;
+      margin-bottom: 1.5rem;
+      transition: color 0.3s;
+    }
+
+    .service-card:hover .service-number { color: var(--accent); }
+
+    .service-name {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .service-desc {
+      font-size: 0.9rem;
+      color: var(--ink-light);
+      line-height: 1.75;
+    }
+
+    .service-tag {
+      display: inline-block;
+      margin-top: 1.5rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--accent-light);
+      padding: 0.3rem 0.7rem;
+      border-radius: 2px;
+    }
+
+    /* MERIDIAN READY CALLOUT */
+    .ready-callout {
+      margin-top: 2.5rem;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      background: var(--cream);
+      padding: 1.75rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      transition: border-color 0.3s;
+    }
+
+    .ready-callout:hover { border-color: var(--accent); }
+
+    .ready-callout-left {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .ready-callout-badge {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-faint);
+      border: 1px solid var(--accent-light);
+      padding: 0.3rem 0.75rem;
+      border-radius: 2px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .ready-callout-text {
+      font-size: 0.88rem;
+      color: var(--ink-light);
+      line-height: 1.6;
+    }
+
+    .ready-callout-text strong { color: var(--ink); font-weight: 400; }
+
+    .ready-callout-link {
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: opacity 0.2s;
+    }
+
+    .ready-callout-link:hover { opacity: 0.7; }
+
+    /* PROCESS */
+    .process { background: var(--cream); }
+    .process-header { margin-bottom: 5rem; }
+
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      position: relative;
+    }
+
+    .process-steps::before {
+      content: '';
+      position: absolute;
+      top: 1.2rem;
+      left: calc(100% / 8);
+      right: calc(100% / 8);
+      height: 1px;
+      background: var(--border);
+    }
+
+    .process-step { padding: 0 2rem; }
+
+    .step-dot {
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2rem;
+      position: relative;
+      z-index: 1;
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .process-step:hover .step-dot { border-color: var(--accent); background: var(--accent); }
+
+    .step-dot-inner {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      transition: background 0.3s;
+    }
+
+    .process-step:hover .step-dot-inner { background: white; }
+
+    .step-number {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 0.75rem;
+    }
+
+    .step-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 400;
+      margin-bottom: 0.75rem;
+    }
+
+    .step-desc {
+      font-size: 0.88rem;
+      color: var(--ink-light);
+      line-height: 1.75;
+    }
+
+    /* CTA */
+    .cta-section {
+      background: var(--warm-white);
+      padding: 8rem 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--accent-faint) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-inner { position: relative; z-index: 1; }
+
+    .cta-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+
+    .cta-headline {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 300;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+
+    .cta-headline em { font-style: italic; color: var(--accent); }
+
+    .cta-body {
+      font-size: 1rem;
+      color: var(--ink-light);
+      max-width: 480px;
+      margin: 0 auto 3rem;
+      line-height: 1.75;
+    }
+
+    .cta-email {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1rem;
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--accent);
+      padding-bottom: 0.25rem;
+      transition: color 0.2s;
+    }
+
+    .cta-email:hover { color: var(--accent); }
+
+    .cta-location {
+      margin-top: 1.5rem;
+      font-size: 1rem;
+      color: var(--ink-light);
+      font-style: italic;
+      font-family: var(--font-display);
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 2.5rem 4rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+
+    .footer-copy { font-size: 0.78rem; color: var(--ink-faint); }
+
+    .footer-tagline {
+      font-size: 0.9rem;
+      color: var(--ink-light);
+      font-style: italic;
+      font-family: var(--font-display);
+    }
+
+    .footer-location {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.78rem;
+      color: var(--ink-faint);
+    }
+
+    .footer-location-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.7;
+      flex-shrink: 0;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    @media (max-width: 900px) {
+      nav { padding: 1.25rem 2rem; }
+      .nav-links { display: none; }
+      .hero { padding: 7rem 2rem 5rem; }
+      .hero::before { font-size: 16rem; right: -1rem; }
+      section { padding: 5rem 2rem; }
+      .intro-strip { grid-template-columns: 1fr; padding: 3rem 2rem; gap: 2rem; }
+      .services-grid { grid-template-columns: 1fr; }
+      .service-card { border-right: none; border-bottom: 1px solid var(--border); }
+      .service-card:last-child { border-bottom: none; }
+      .ready-callout { flex-direction: column; align-items: flex-start; }
+      .ready-callout-left { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+      .process-steps { grid-template-columns: 1fr 1fr; gap: 3rem; }
+      .process-steps::before { display: none; }
+      .process-step { padding: 0; }
+      .cta-section { padding: 5rem 2rem; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a class="nav-logo" href="#">Meridian</a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#contact" class="nav-cta">Start a conversation</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <p class="hero-eyebrow">Customer Experience Consultancy</p>
+    <h1 class="hero-headline">The whole journey,<br /><em>by design.</em></h1>
+    <div class="hero-divider"></div>
+    <p class="hero-body">Meridian is a customer experience consultancy. We map the full journey, streamline the operations behind it, and design the digital presence that brings it to life.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Start a conversation</a>
+      <a href="#services" class="btn-secondary">See how we work</a>
+    </div>
+  </section>
+
+  <!-- INTRO STRIP -->
+  <div class="intro-strip">
+    <p class="intro-strip-quote">"We help businesses step back and look at the whole picture — how customers find you, experience you, and come back."</p>
+    <p class="intro-strip-body">Web design is part of that story. But it's never the whole story. Most agencies start at the surface. We start at the source — with your customers, your operations, and the experience you're actually delivering — then work outward from there.</p>
+  </div>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="services-header">
+      <div>
+        <p class="section-label reveal">What we offer</p>
+        <h2 class="section-title reveal reveal-delay-1">Three ways we work<br /><em>with you.</em></h2>
+      </div>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-number">01</div>
+        <h3 class="service-name">Customer Experience Design</h3>
+        <p class="service-desc">We map every touchpoint your customer encounters — from awareness through to advocacy — and help you design an experience that holds together as a whole, not just in parts.</p>
+        <span class="service-tag">Journey Mapping</span>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-number">02</div>
+        <h3 class="service-name">Web Design &amp; Digital Presence</h3>
+        <p class="service-desc">Your website, designed to reflect a coherent experience — not just a beautiful page. We build digital presences that are grounded in how your customers actually think and move.</p>
+        <span class="service-tag">Web Design</span>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-number">03</div>
+        <h3 class="service-name">AI-Driven Workflow Improvements</h3>
+        <p class="service-desc">Great customer experiences depend on great operations behind them. We identify where AI and automation can remove friction, so your team can focus on the work that matters.</p>
+        <span class="service-tag">Operations</span>
+      </div>
+    </div>
+
+    <!-- Meridian Ready callout -->
+    <!--
+    <div class="ready-callout reveal">
+      <div class="ready-callout-left">
+        <span class="ready-callout-badge">Meridian Ready</span>
+        <p class="ready-callout-text">Need a clean, professional website without the full engagement? <strong>Meridian Ready</strong> is a website-in-a-day offer built for small businesses that need to move fast.</p>
+      </div>
+      <a href="meridian-ready.html" class="ready-callout-link">See Meridian Ready &#8594;</a>
+    </div>
+    -->
+  </section>
+
+  <!-- PROCESS -->
+  <section class="process" id="process">
+    <div class="process-header">
+      <p class="section-label reveal">How we work</p>
+      <h2 class="section-title reveal reveal-delay-1">Clarity before<br /><em>construction.</em></h2>
+    </div>
+    <div class="process-steps">
+      <div class="process-step reveal">
+        <div class="step-dot"><div class="step-dot-inner"></div></div>
+        <p class="step-number">Step 01</p>
+        <h3 class="step-title">Discover</h3>
+        <p class="step-desc">We begin by understanding your business, your customers, and the experience you're currently delivering — before touching a single design tool.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-1">
+        <div class="step-dot"><div class="step-dot-inner"></div></div>
+        <p class="step-number">Step 02</p>
+        <h3 class="step-title">Map</h3>
+        <p class="step-desc">We chart the full customer journey — every touchpoint, transition, and moment where experience is made or broken.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-2">
+        <div class="step-dot"><div class="step-dot-inner"></div></div>
+        <p class="step-number">Step 03</p>
+        <h3 class="step-title">Design</h3>
+        <p class="step-desc">With a clear picture of the whole, we design the digital presence and operational improvements that bring your ideal experience to life.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-3">
+        <div class="step-dot"><div class="step-dot-inner"></div></div>
+        <p class="step-number">Step 04</p>
+        <h3 class="step-title">Deliver</h3>
+        <p class="step-desc">We hand off work that's built to last — with the thinking documented so your team can carry the vision forward independently.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="contact">
+    <div class="cta-inner">
+      <p class="cta-label reveal">Let's talk</p>
+      <h2 class="cta-headline reveal reveal-delay-1">Ready to see<br /><em>the whole picture?</em></h2>
+      <p class="cta-body reveal reveal-delay-2">Most projects start with a conversation. Tell us about your business and where you feel the friction — we'll take it from there.</p>
+      <div class="reveal reveal-delay-3">
+        <a href="https://outlook.office.com/book/MeridianStudio1@meridianstudio.ca/?ismsaljsauthenabled" class="cta-email" target="_blank" rel="noopener">Book a free discovery call &#8594;</a>
+      </div>
+      <p class="cta-location reveal reveal-delay-3">Based in Victoria, BC — working with businesses near and far.</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-logo">Meridian</span>
+    <span class="footer-tagline">The whole journey, by design.</span>
+    <span class="footer-copy">&#169; 2026 Meridian</span>
+  </footer>
+
+  <script>
+    var nav = document.getElementById('nav');
+    window.addEventListener('scroll', function() {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    var reveals = document.querySelectorAll('.reveal');
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    reveals.forEach(function(el) { observer.observe(el); });
+  </script>
+</body>
+</html>
